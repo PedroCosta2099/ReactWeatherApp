@@ -1,10 +1,9 @@
 import './App.css';
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import { Search }  from 'react-bootstrap-icons';
 import api from './services/api';
-import { TextField, Button,Input,InputAdornment,Box, IconButton} from "@mui/material";
+import {Button,Input,InputAdornment,Box} from "@mui/material";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { GithubPicker } from 'react-color';
 import ShowInfo from './components/ShowInfo';
 
 
@@ -17,14 +16,13 @@ function App() {
   const searchLocation = (event) => {
     if (event.key === 'Enter')
     {
-    onSubmit();
+    handleClick();
   }
   }
 
 
-  function onSubmit() 
+  function handleClick() 
   {
-
     api
     .get("/data/2.5/weather?appid=ee9af5e146c23d7e93c6e5de8c71fa5c&units=metric&lang=pt",{params :{q:location}})
     .then((response) => {
@@ -32,8 +30,9 @@ function App() {
     .catch((err) => {
       console.error("ops! ocorreu um erro" + err);
     });
-    
   }
+
+  useEffect(() => handleClick,[]);
  
 
   return (
@@ -51,7 +50,7 @@ function App() {
               label="City" 
               endAdornment={
                 <InputAdornment position="end">
-                  <Button style={{padding:0}} onClick={onSubmit}><Search style={{color:"white",padding:0}} size={20}/></Button>
+                  <Button style={{padding:0}} onClick={handleClick}><Search style={{color:"white",padding:0}} size={20}/></Button>
                 </InputAdornment>
               }
               />
@@ -59,8 +58,7 @@ function App() {
       </div>
     
       <div>
-        {/*data.main ? <ShowInfo dataToShow={data}/>:null*/}
-        {<ShowInfo/>}
+        {data.main ? <ShowInfo dataToShow={data}/>:null}
       </div>
     
     </div>
