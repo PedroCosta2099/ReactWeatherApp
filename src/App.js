@@ -11,7 +11,6 @@ function App() {
   const [data,setData] = useState({});
   const [location, setLocation] = useState('Mangualde');
 
-  console.log(process.env)
  
   const searchLocation = (event) => {
     if (event.key === 'Enter')
