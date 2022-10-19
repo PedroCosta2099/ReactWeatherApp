@@ -5,14 +5,13 @@ import api from './services/api';
 import {Button,Input,InputAdornment,Box} from "@mui/material";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ShowInfo from './components/ShowInfo';
-import config from './services/config'
-
-
 
 function App() {
 
   const [data,setData] = useState({});
   const [location, setLocation] = useState('Mangualde');
+
+  console.log(process.env)
  
   const searchLocation = (event) => {
     if (event.key === 'Enter')
@@ -24,7 +23,7 @@ function App() {
   function handleClick() 
   {
     api
-    .get("/data/2.5/weather?appid="+config.MY_KEY+"&units=metric&lang=pt",{params :{q: location}})
+    .get(`/data/2.5/weather?appid=${process.env.REACT_APP_API_KEY}&units=metric&lang=pt`,{params :{q: location}})
     .then((response) => {
       setData(response.data);return response.data;})
     .catch((err) => {
